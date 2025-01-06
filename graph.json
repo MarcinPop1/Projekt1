@@ -1,0 +1,67 @@
+{
+  "nodes": [
+    {
+      "id": "WAW",
+      "type": "airport",
+      "name": "Warszawa"
+    },
+    {
+      "id": "KRK",
+      "type": "airport",
+      "name": "Kraków"
+    },
+    {
+      "id": "GDN",
+      "type": "airport",
+      "name": "Gdańsk"
+    },
+    {
+      "id": "WRO",
+      "type": "airport",
+      "name": "Wrocław"
+    },
+    {
+      "id": "POZ",
+      "type": "airport",
+      "name": "Poznań"
+    }
+  ],
+  "edges": [
+    {
+      "from": "WAW",
+      "to": "KRK",
+      "distance": 300,
+      "time": 45
+    },
+    {
+      "from": "WAW",
+      "to": "GDN",
+      "distance": 350,
+      "time": 55
+    },
+    {
+      "from": "KRK",
+      "to": "WRO",
+      "distance": 270,
+      "time": 40
+    },
+    {
+      "from": "GDN",
+      "to": "POZ",
+      "distance": 320,
+      "time": 50
+    },
+    {
+      "from": "POZ",
+      "to": "WRO",
+      "distance": 180,
+      "time": 30
+    },
+    {
+      "from": "WRO",
+      "to": "WAW",
+      "distance": 350,
+      "time": 55
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "nodes": [
+    {
+      "id": "A",
+      "type": "bus stop ",
+      "name": "zadupie"
+    },
+    {
+      "id": "B",
+      "type": "bus stop ",
+      "name": "cos tam "
+    },
+    {
+      "id": "C",
+      "type": "bus stop ",
+      "name": "tiruriru"
+    }
+  ],
+  "edges": [
+    {
+      "from": "A",
+      "to": "B",
+      "distance": 10,
+      "time": 6
+    },
+    {
+      "from": "B",
+      "to": "C",
+      "distance": 12,
+      "time": 7
+    }
+  ]
+}
