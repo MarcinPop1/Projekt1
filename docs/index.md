@@ -1,7 +1,7 @@
 # System Wizualizacji Grafów
 
 ## Wprowadzenie
-System Wizualizacji Grafów to narzędzie stworzone w ramach zajęć z Programowania Obiektowego, służące do analizy i wizualizacji struktur grafowych.
+System Wizualizacji Grafów to narzędzie stworzone w ramach zajęć z Dobrych Praktyk Programowania, służące do analizy i wizualizacji struktur grafowych.
 
 ## Szybki start
 

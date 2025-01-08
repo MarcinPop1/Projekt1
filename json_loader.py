@@ -47,5 +47,39 @@ def validate_graph_data(data: Dict[str, Any]) -> bool:
     required_keys = ['nodes', 'edges']
     return all(key in data for key in required_keys)
 
-# Reszta implementacji...
+def load_graph_from_json(file_path: str) -> 'Graph':
+    """
+    Wczytuje graf z pliku JSON i tworzy obiekt Graph.
 
+    Args:
+        file_path (str): Ścieżka do pliku JSON.
+
+    Returns:
+        Graph: Obiekt grafu utworzony na podstawie danych z pliku.
+
+    Raises:
+        FileNotFoundError: Gdy plik nie zostanie znaleziony.
+        ValueError: Gdy struktura danych jest niepoprawna.
+    """
+    from graph import Graph  
+    
+    data = load_json_file(file_path)
+    if not validate_graph_data(data):
+        raise ValueError("Niepoprawna struktura danych grafu")
+
+    graph = Graph()
+    
+    # Dodawanie węzłów
+    for node in data['nodes']:
+        graph.add_node(node['id'], node['type'], node['name'])
+    
+    # Dodawanie krawędzi
+    for edge in data['edges']:
+        graph.add_edge(
+            edge['from'],
+            edge['to'],
+            distance=edge.get('distance'),
+            time=edge.get('time')
+        )
+    
+    return graph

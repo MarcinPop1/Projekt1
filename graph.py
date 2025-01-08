@@ -64,10 +64,15 @@ class Graph:
         Note:
             Usuwa również wszystkie krawędzie związane z tym wierzchołkiem.
         """
-        self.nodes.pop(node_id, None)
+        if node_id not in self.nodes:
+            raise ValueError(f"Node with ID {node_id} does not exist.")
+        del self.nodes[node_id]
+        # Usuń krawędzie wychodzące z usuwanego węzła
         self.edges.pop(node_id, None)
-        for edges in self.edges.values():
-            edges[:] = [edge for edge in edges if edge["to"] != node_id]
+        # Usuń krawędzie prowadzące do usuwanego węzła
+        for from_node in list(self.edges.keys()):
+            if node_id in self.edges[from_node]:
+                del self.edges[from_node][node_id]
 
     def remove_edge(self, from_node, to_node):
         """

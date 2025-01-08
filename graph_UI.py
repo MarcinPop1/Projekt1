@@ -125,8 +125,8 @@ def visualize_graph(graph, highlight_path=None):
     nx.draw_networkx_edge_labels(G, pos, edge_labels, font_size=8)
 
     plt.title("Network Graph Visualization")
-    plt.axis('off')  # Wyłącz osie
-    plt.tight_layout()  # Dopasuj układ
+    plt.axis('off')  
+    plt.tight_layout()  
     plt.show()
 
 from shortest_path import dijkstra
@@ -148,8 +148,30 @@ class GraphApp:
 
     def create_widgets(self):
         """Tworzy wszystkie elementy GUI."""
+        # Główny kontener z możliwością przewijania
+        self.canvas = tk.Canvas(self.root)
+        scrollbar = tk.Scrollbar(self.root, orient="vertical", command=self.canvas.yview)
+        self.scrollable_frame = tk.Frame(self.canvas)
+        
+        # Konfiguracja przewijania
+        self.scrollable_frame.bind(
+            "<Configure>",
+            lambda e: self.canvas.configure(scrollregion=self.canvas.bbox("all"))
+        )
+        
+        # Tworzenie okna w canvas z ramką
+        self.canvas.create_window((0, 0), window=self.scrollable_frame, anchor="nw")
+        self.canvas.configure(yscrollcommand=scrollbar.set)
+        
+        # Pakowanie elementów
+        self.canvas.pack(side="left", fill="both", expand=True)
+        scrollbar.pack(side="right", fill="y")
+        
+        # Dodanie obsługi przewijania myszką
+        self.canvas.bind_all("<MouseWheel>", self._on_mousewheel)
+        
         # Główny kontener
-        main_container = tk.Frame(self.root, padx=10, pady=10)
+        main_container = tk.Frame(self.scrollable_frame, padx=10, pady=10)
         main_container.pack(expand=True, fill='both')
         
         # Lewa strona - operacje
@@ -275,7 +297,7 @@ class GraphApp:
 
             self.graph.add_node(node_id, node_type, node_name)
             messagebox.showinfo("Success", f"Node {node_name} added successfully!")
-            self.update_lists()  # Aktualizuj listy
+            self.update_lists()  
         except ValueError as e:
             messagebox.showerror("Error", str(e))
 
@@ -286,7 +308,7 @@ class GraphApp:
                 raise ValueError("Node ID is required.")
             self.graph.remove_node(node_id)
             messagebox.showinfo("Success", f"Node {node_id} removed successfully!")
-            self.update_lists()  # Aktualizuj listy
+            self.update_lists()  
         except ValueError as e:
             messagebox.showerror("Error", str(e))
 
@@ -302,7 +324,7 @@ class GraphApp:
 
             self.graph.add_edge(from_node, to_node, distance=int(distance), time=int(time))
             messagebox.showinfo("Success", f"Edge from {from_node} to {to_node} added successfully!")
-            self.update_lists()  # Aktualizuj listy
+            self.update_lists() 
         except ValueError as e:
             messagebox.showerror("Error", str(e))
 
@@ -316,7 +338,7 @@ class GraphApp:
 
             self.graph.remove_edge(from_node, to_node)
             messagebox.showinfo("Success", f"Edge from {from_node} to {to_node} removed successfully!")
-            self.update_lists()  # Aktualizuj listy
+            self.update_lists()  
         except ValueError as e:
             messagebox.showerror("Error", str(e))
 
@@ -346,7 +368,7 @@ class GraphApp:
             self.result_text.delete(1.0, tk.END)
             self.result_text.insert(tk.END, f"Distance: {distance}\nPath: {' -> '.join(path)}")
             
-            # Wizualizuj ścieżkę
+           
             self.visualize(highlight_path=path)
             
         except Exception as e:
@@ -357,11 +379,15 @@ class GraphApp:
         try:
             self.graph.load_from_file("graph.json")
             messagebox.showinfo("Success", "Graph loaded successfully!")
-            self.update_lists()  # Aktualizuj listy
+            self.update_lists()  
             self.visualize()
         except Exception as e:
             messagebox.showerror("Error", f"Failed to load graph: {e}")
 
+    def _on_mousewheel(self, event):
+        """Obsługa przewijania myszką."""
+        self.canvas.yview_scroll(int(-1*(event.delta/120)), "units")
+        
     def visualize(self, highlight_path=None):
         """Wywołuje funkcję wizualizacji grafu."""
         try:
